@@ -13,24 +13,20 @@ import Blog from "./pages/Blog";
 import Research from "./pages/Research";
 import Contact from "./pages/Contact";
 import Layout from "./components/Layout";
-
-const routerBase =
-  import.meta.env.BASE_URL === "/"
-    ? "/"
-    : import.meta.env.BASE_URL.replace(/\/$/, "");
+import { homeWithBase, withBase } from "./lib/basePath";
 
 function AppRouter() {
   return (
     <Layout>
       <Switch>
-        <Route path={"/"} component={Home} />
-        <Route path={"/about"} component={About} />
-        <Route path={"/services"} component={Services} />
-        <Route path={"/services/:id"} component={ServiceDetail} />
-        <Route path={"/blog"} component={Blog} />
-        <Route path={"/research"} component={Research} />
-        <Route path={"/contact"} component={Contact} />
-        <Route path={"/404"} component={NotFound} />
+        <Route path={homeWithBase()} component={Home} />
+        <Route path={withBase("/about")} component={About} />
+        <Route path={withBase("/services")} component={Services} />
+        <Route path={withBase("/services/:id")} component={ServiceDetail} />
+        <Route path={withBase("/blog")} component={Blog} />
+        <Route path={withBase("/research")} component={Research} />
+        <Route path={withBase("/contact")} component={Contact} />
+        <Route path={withBase("/404")} component={NotFound} />
         {/* Final fallback route */}
         <Route component={NotFound} />
       </Switch>
@@ -43,7 +39,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <LanguageProvider>
-          <WouterRouter base={routerBase}>
+          <WouterRouter>
             <TooltipProvider>
               <Toaster />
               <AppRouter />

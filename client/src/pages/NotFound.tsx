@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { AlertCircle, Home } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { homeWithBase } from "@/lib/basePath";
 
 export default function NotFound() {
   const { t } = useLanguage();
@@ -19,17 +20,17 @@ export default function NotFound() {
         <h1 className="text-6xl md:text-8xl font-bold mb-4">404</h1>
 
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-          {t('notFound.title')}
+          {t("notFound.title")}
         </h2>
 
         <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-md mx-auto">
-          {t('notFound.description')}
+          {t("notFound.description")}
         </p>
 
-        <Link href="/">
+        <Link href={homeWithBase()}>
           <Button size="lg" className="cursor-pointer">
             <Home className="w-4 h-4 mr-2" />
-            {t('notFound.goHome')}
+            {t("notFound.goHome")}
           </Button>
         </Link>
       </div>

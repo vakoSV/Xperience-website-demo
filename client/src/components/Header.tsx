@@ -3,20 +3,21 @@ import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Globe } from "lucide-react";
+import { homeWithBase, withBase } from "@/lib/basePath";
 
-const homeUrl = import.meta.env.BASE_URL;
+const homeUrl = homeWithBase();
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "/", label: t("nav.home") },
-    { href: "/about", label: t("nav.about") },
-    { href: "/services", label: t("nav.services") },
-    { href: "/blog", label: t("nav.blog") },
-    { href: "/research", label: t("nav.research") },
-    { href: "/contact", label: t("nav.contact") },
+    { href: homeWithBase(), label: t("nav.home") },
+    { href: withBase("/about"), label: t("nav.about") },
+    { href: withBase("/services"), label: t("nav.services") },
+    { href: withBase("/blog"), label: t("nav.blog") },
+    { href: withBase("/research"), label: t("nav.research") },
+    { href: withBase("/contact"), label: t("nav.contact") },
   ];
 
   return (
