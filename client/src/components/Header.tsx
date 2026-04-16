@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Button } from "@/components/ui/button";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X, Facebook, Linkedin, Youtube } from "lucide-react";
 import { homeWithBase, withBase } from "@/lib/basePath";
 
 const homeUrl = homeWithBase();
@@ -47,6 +46,36 @@ export default function Header() {
 
         {/* Right side - Language Switcher & Mobile Menu */}
         <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-2">
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 rounded-lg hover:bg-muted transition-colors"
+              title="LinkedIn"
+            >
+              <Linkedin size={16} />
+            </a>
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 rounded-lg hover:bg-muted transition-colors"
+              title="Facebook"
+            >
+              <Facebook size={16} />
+            </a>
+            <a
+              href="https://www.youtube.com"
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 rounded-lg hover:bg-muted transition-colors"
+              title="YouTube"
+            >
+              <Youtube size={16} />
+            </a>
+          </div>
+
           {/* Language Switcher */}
           <div className="flex items-center gap-2 border border-border rounded-lg p-1">
             <button
