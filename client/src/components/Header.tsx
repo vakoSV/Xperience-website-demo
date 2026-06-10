@@ -25,12 +25,14 @@ export default function Header() {
         {/* Logo */}
         <a
           href={homeUrl}
-          className="flex items-center gap-2 font-bold text-xl hover:opacity-80 transition-opacity"
+          className="flex items-center hover:opacity-80 transition-opacity"
+          aria-label="Xperience — home"
         >
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">
-            X
-          </div>
-          <span>Xperience</span>
+          <img
+            src={withBase("/assets/logos/xperience-logo-horizontal.png")}
+            alt="Xperience"
+            className="h-8 w-auto"
+          />
         </a>
 
         {/* Desktop Navigation */}

@@ -22,11 +22,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">
-                X
-              </div>
-              <span className="font-bold text-lg">Xperience</span>
+            <div className="mb-4">
+              <img
+                src={withBase("/assets/logos/xperience-logo-horizontal.png")}
+                alt="Xperience"
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-sm text-muted-foreground">
               {t("home.heroSubtitle")}

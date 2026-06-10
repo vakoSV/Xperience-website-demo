@@ -120,7 +120,11 @@ export default function Services() {
             {t("servicesPage.ctaDesc")}
           </p>
           <Link href={withBase("/contact")}>
-            <Button size="lg" variant="secondary" className="cursor-pointer">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="cursor-pointer bg-champagne text-[#1c1c1c] hover:bg-champagne/90"
+            >
               {t("nav.contact")} <ChevronRight className="ml-2" size={20} />
             </Button>
           </Link>

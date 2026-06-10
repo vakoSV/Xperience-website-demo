@@ -188,7 +188,7 @@ export default function Home() {
           alt="Business transformation"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-slate-900/60" />
+        <div className="absolute inset-0 bg-[#1a103e]/65" />
         <div className="container relative z-10 py-20 md:py-28 text-white">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
