@@ -94,7 +94,7 @@ export default function Services() {
                       {service.description}
                     </p>
                     <Link href={withBase(`/services/${service.id}`)}>
-                      <Button className="w-full cursor-pointer bg-[#9ccaea] text-[#1c1c1c] hover:bg-[#332a8e] hover:text-white">
+                      <Button className="w-full cursor-pointer bg-violet text-white hover:bg-[#1a103e] hover:text-white">
                         {t("blog.readMore")}{" "}
                         <ChevronRight className="ml-2" size={16} />
                       </Button>

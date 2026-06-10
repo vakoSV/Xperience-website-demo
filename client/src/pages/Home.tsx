@@ -336,9 +336,9 @@ export default function Home() {
                   <p className="text-muted-foreground mb-4">
                     {service.description}
                   </p>
-                  {/* Service card button — powder blue */}
+                  {/* Read More button — royal violet, deep-indigo hover */}
                   <Link href={withBase(`/services/${service.id}`)}>
-                    <Button className="cursor-pointer bg-powder text-ink hover:bg-violet hover:text-white">
+                    <Button className="cursor-pointer bg-violet text-white hover:bg-[#1a103e] hover:text-white">
                       {t("blog.readMore")} <ChevronRight size={16} />
                     </Button>
                   </Link>
@@ -516,9 +516,9 @@ export default function Home() {
                   <p className="text-muted-foreground mb-4">
                     {isKa ? article.excerptKa : article.excerptEn}
                   </p>
-                  {/* News "Read More" button — peach blush */}
+                  {/* Read More button — royal violet, deep-indigo hover */}
                   <Link href={withBase("/blog")}>
-                    <Button className="cursor-pointer bg-peach text-white hover:bg-peach-dark hover:text-white">
+                    <Button className="cursor-pointer bg-violet text-white hover:bg-[#1a103e] hover:text-white">
                       {t("blog.readMore")} <ChevronRight size={16} />
                     </Button>
                   </Link>
