@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 import { toast } from "sonner";
+import { HeroTitle } from "@/components/HeroTitle";
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -47,7 +48,7 @@ export default function Contact() {
         </div>
         <div className="wrap">
           <div className="kicker">{t("contact.subtitle")}</div>
-          <h1>{t("contact.title")}</h1>
+          <h1><HeroTitle text={t("contact.title")} /></h1>
           <p>{t("contactPage.infoTitle")}</p>
         </div>
       </section>

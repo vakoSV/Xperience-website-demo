@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { withBase } from "@/lib/basePath";
+import { HeroTitle } from "@/components/HeroTitle";
 
 export default function Services() {
   const { t } = useLanguage();
@@ -28,7 +29,7 @@ export default function Services() {
         </div>
         <div className="wrap">
           <div className="kicker">{t("nav.services")}</div>
-          <h1>{t("services.title")}</h1>
+          <h1><HeroTitle text={t("services.title")} /></h1>
           <p>{t("services.subtitle")}</p>
         </div>
       </section>

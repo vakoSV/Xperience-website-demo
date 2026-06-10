@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Download, FileText, Calendar, User } from "lucide-react";
 import { withBase } from "@/lib/basePath";
+import { HeroTitle } from "@/components/HeroTitle";
 
 export default function Research() {
   const { language, t } = useLanguage();
@@ -33,7 +34,7 @@ export default function Research() {
         </div>
         <div className="wrap">
           <div className="kicker">{t("nav.research")}</div>
-          <h1>{t("research.title")}</h1>
+          <h1><HeroTitle text={t("research.title")} /></h1>
           <p>{t("research.subtitle")}</p>
         </div>
       </section>

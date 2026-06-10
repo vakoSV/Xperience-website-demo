@@ -2,6 +2,7 @@ import React from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { withBase } from "@/lib/basePath";
+import { HeroTitle } from "@/components/HeroTitle";
 
 export default function Blog() {
   const { language, t } = useLanguage();
@@ -39,7 +40,7 @@ export default function Blog() {
         </div>
         <div className="wrap">
           <div className="kicker">{t("nav.blog")}</div>
-          <h1>{t("blog.title")}</h1>
+          <h1><HeroTitle text={t("blog.title")} /></h1>
           <p>{t("blog.subtitle")}</p>
         </div>
       </section>

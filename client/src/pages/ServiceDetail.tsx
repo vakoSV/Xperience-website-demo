@@ -3,6 +3,7 @@ import { useRoute, Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { withBase } from "@/lib/basePath";
+import { HeroTitle } from "@/components/HeroTitle";
 
 export default function ServiceDetail() {
   const [, params] = useRoute(withBase("/services/:id"));
@@ -35,7 +36,7 @@ export default function ServiceDetail() {
             <ChevronLeft size={18} /> {t("nav.services")}
           </Link>
           <div className="svc-num" style={{ color: "var(--sky)", marginBottom: 8 }}>{String(serviceId).padStart(2, "0")}</div>
-          <h1>{service.name}</h1>
+          <h1><HeroTitle text={service.name} /></h1>
           <p>{service.description}</p>
         </div>
       </section>
