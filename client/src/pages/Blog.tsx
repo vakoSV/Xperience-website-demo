@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import YouTubeEmbed from "@/components/YouTubeEmbed";
-import { Facebook, Linkedin, Twitter, Copy, Check } from "lucide-react";
+import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { withBase } from "@/lib/basePath";
 
 export default function Blog() {
   const { language, t } = useLanguage();
   const isKa = language === "ka";
-  const [copiedId, setCopiedId] = useState<number | null>(null);
 
   const articles = [
     { id: 1, titleKa: "ციფრული ტრანსფორმაცია 2024 წელს", titleEn: "Digital Transformation in 2024", excerptKa: "აღმოაჩინეთ ახალი ტრენდები ციფრული ტრანსფორმაციის სფეროში და როგორ შეიძლება ისინი თქვენი ბიზნესის ზრდას უწყობდეს ხელს.", excerptEn: "Discover new trends in digital transformation and how they can accelerate your business growth.", date: "2024-04-15", author: "ლევან ბერიძე", authorEn: "Levan Beridze", image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80" },
@@ -22,22 +20,13 @@ export default function Blog() {
     const url = `${window.location.origin}${withBase("/blog")}#article-${articleId}`;
     const article = articles.find(a => a.id === articleId);
     const title = isKa ? article?.titleKa : article?.titleEn;
-    if (platform === "copy") {
-      navigator.clipboard.writeText(url);
-      setCopiedId(articleId);
-      setTimeout(() => setCopiedId(null), 2000);
-    } else if (platform === "facebook") {
+    if (platform === "facebook") {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank");
     } else if (platform === "linkedin") {
       window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, "_blank");
     } else if (platform === "twitter") {
       window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title || "")}`, "_blank");
     }
-  };
-
-  const shareBtn: React.CSSProperties = {
-    display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 700,
-    padding: "8px 13px", borderRadius: 999, border: "1.5px solid rgba(53,32,125,0.18)", color: "var(--purple)",
   };
 
   return (
@@ -58,34 +47,43 @@ export default function Blog() {
       {/* ===== ARTICLES ===== */}
       <section className="section">
         <div className="wrap">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
             {articles.map((article, i) => (
               <article
                 key={article.id}
                 id={`article-${article.id}`}
                 className="xp-card reveal"
-                style={{ overflow: "hidden", display: "flex", flexDirection: "column", ["--d" as any]: `${(i % 2) * 0.08}s` }}
+                style={{ overflow: "hidden", display: "flex", flexDirection: "column", ["--d" as any]: `${(i % 3) * 0.08}s` }}
               >
-                <div className="ph" style={{ aspectRatio: "16 / 9" }}>
+                {/* Featured image only (no video) */}
+                <div className="ph" style={{ aspectRatio: "16 / 9", flex: "none" }}>
                   <img src={article.image} alt={isKa ? article.titleKa : article.titleEn} />
                 </div>
-                <div style={{ padding: "22px 24px 26px", display: "flex", flexDirection: "column", flex: 1 }}>
+                <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
                   <div className="news-meta">
                     <span className="tag tag-purple">{isKa ? article.author : article.authorEn}</span>
                     <span className="news-date">{new Date(article.date).toLocaleDateString()}</span>
                   </div>
                   <h3 style={{ fontSize: 20, fontWeight: 800, lineHeight: 1.3, marginBottom: 10 }}>{isKa ? article.titleKa : article.titleEn}</h3>
-                  <p style={{ color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 18 }}>{isKa ? article.excerptKa : article.excerptEn}</p>
-                  <div style={{ marginBottom: 18 }}>
-                    <YouTubeEmbed videoId="dQw4w9WgXcQ" title={isKa ? article.titleKa : article.titleEn} />
-                  </div>
-                  <div style={{ marginTop: "auto", display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    <button type="button" style={shareBtn} onClick={() => handleShare(article.id, "facebook")}><Facebook size={15} /> Facebook</button>
-                    <button type="button" style={shareBtn} onClick={() => handleShare(article.id, "linkedin")}><Linkedin size={15} /> LinkedIn</button>
-                    <button type="button" style={shareBtn} onClick={() => handleShare(article.id, "twitter")}><Twitter size={15} /> Twitter</button>
-                    <button type="button" style={shareBtn} onClick={() => handleShare(article.id, "copy")}>
-                      {copiedId === article.id ? <><Check size={15} /> {t("blogPage.copied")}</> : <><Copy size={15} /> {t("blogPage.copy")}</>}
-                    </button>
+                  <p style={{ color: "var(--ink-soft)", lineHeight: 1.6, marginBottom: 20 }}>{isKa ? article.excerptKa : article.excerptEn}</p>
+
+                  {/* footer: Read more button (left) + social-share circles (right) */}
+                  <div style={{ marginTop: "auto", display: "flex", alignItems: "center", gap: 12 }}>
+                    <a href={`#article-${article.id}`} className="btn btn-purple" style={{ padding: "11px 20px", fontSize: 14 }}>
+                      <span>{t("blog.readMore")}</span>
+                      <span className="arr">→</span>
+                    </a>
+                    <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
+                      <button type="button" className="share-circle" aria-label="Share on Facebook" onClick={() => handleShare(article.id, "facebook")}>
+                        <Facebook size={16} />
+                      </button>
+                      <button type="button" className="share-circle" aria-label="Share on LinkedIn" onClick={() => handleShare(article.id, "linkedin")}>
+                        <Linkedin size={16} />
+                      </button>
+                      <button type="button" className="share-circle" aria-label="Share on Twitter" onClick={() => handleShare(article.id, "twitter")}>
+                        <Twitter size={16} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </article>

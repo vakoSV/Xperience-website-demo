@@ -79,8 +79,13 @@ export default function Home() {
 
   // ----- testimonials rail -----
   const railRef = useRef<HTMLDivElement>(null);
-  const scrollRail = (dir: number) =>
-    railRef.current?.scrollBy({ left: dir * 444, behavior: "smooth" });
+  const scrollRail = (dir: number) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const card = rail.querySelector<HTMLElement>(".testi-card");
+    const step = card ? card.offsetWidth + 24 : rail.clientWidth / 3;
+    rail.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   // ----- data (existing content) -----
   const services = [1, 2, 3, 4, 5, 6].map(id => ({
@@ -148,6 +153,12 @@ export default function Home() {
       text: "გუნდმა სტრატეგიიდან განხორციელებამდე სრული პასუხისმგებლობა აიღო და შედეგიც სწრაფად მივიღეთ.",
       textEn: "The team took ownership from strategy through execution, and we saw results faster than expected.",
       image: "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=200&q=80",
+    },
+    {
+      name: "მარიამ ჯაში", nameEn: "Mariam Jashi", company: "Vela Group", c: "var(--coral)",
+      text: "პროფესიონალური, გულითადი და გულწრფელი — ისინი გეუბნებიან იმას, რაც უნდა გაიგო, და არა იმას, რისი მოსმენაც გსურს.",
+      textEn: "Professional, warm and honest — they tell you what you need to hear, not what you want to hear.",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80",
     },
   ];
 
@@ -328,8 +339,9 @@ export default function Home() {
               </h2>
             </div>
           </div>
-          <div className="reveal" style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-6">
             <YouTubeEmbed videoId="ScMzIvxBSi4" title="Xperience process overview" />
+            <YouTubeEmbed videoId="ScMzIvxBSi4" title="Xperience product walkthrough" />
           </div>
         </div>
       </section>
