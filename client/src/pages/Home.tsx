@@ -4,28 +4,30 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { withBase } from "@/lib/basePath";
 
+// Each title is [before, gradientWord, after] — the middle word renders in the
+// animated coral→sky gradient (design handoff hero <em>).
 const heroSlides = [
   {
     eyebrowKa: "ციფრული ტრანსფორმაცია",
     eyebrowEn: "Digital Transformation",
-    titleKa: "ბიზნესის ციფრული ტრანსფორმაცია შედეგებით",
-    titleEn: "Digital transformation with measurable business impact",
+    titleKa: ["ბიზნესის ციფრული ტრანსფორმაცია ", "შედეგებით", ""],
+    titleEn: ["Digital transformation with measurable business ", "impact", ""],
     textKa: "ვქმნით სტრატეგიას, ვაშენებთ ტექნოლოგიას და ვზრდით ეფექტურობას მკაფიო KPI-ებით.",
     textEn: "We design strategy, build technology, and improve efficiency with clear KPI tracking.",
   },
   {
     eyebrowKa: "AI და მონაცემები",
     eyebrowEn: "AI & Data",
-    titleKa: "AI და მონაცემები ზრდის ახალი ძრავა",
-    titleEn: "AI and data as your next growth engine",
+    titleKa: ["AI და მონაცემები ზრდის ახალი ", "ძრავა", ""],
+    titleEn: ["AI and data as your next ", "growth", " engine"],
     textKa: "ანალიტიკა, ავტომატიზაცია და პროგნოზული მოდელები რეალური გადაწყვეტილებების მისაღებად.",
     textEn: "Analytics, automation, and predictive models to power better executive decisions.",
   },
   {
     eyebrowKa: "ღრუბლოვანი ინფრასტრუქტურა",
     eyebrowEn: "Cloud Infrastructure",
-    titleKa: "ინფრასტრუქტურა, რომელიც თქვენს გუნდთან ერთად იზრდება",
-    titleEn: "Infrastructure that scales with your team",
+    titleKa: ["ინფრასტრუქტურა, რომელიც თქვენს გუნდთან ერთად ", "იზრდება", ""],
+    titleEn: ["Infrastructure that ", "scales", " with your team"],
     textKa: "უსაფრთხო, მოქნილი და ღრუბლოვან გარემოზე დაფუძნებული გადაწყვეტილებები.",
     textEn: "Secure, flexible, cloud-first architecture built for continuous delivery.",
   },
@@ -189,7 +191,11 @@ export default function Home() {
             {heroSlides.map((slide, i) => (
               <div key={i} className={`hero-slide${i === activeSlide ? " active" : ""}`}>
                 <div className="hero-eyebrow">{isKa ? slide.eyebrowKa : slide.eyebrowEn}</div>
-                <h1>{isKa ? slide.titleKa : slide.titleEn}</h1>
+                <h1>
+                  {(isKa ? slide.titleKa : slide.titleEn)[0]}
+                  <em>{(isKa ? slide.titleKa : slide.titleEn)[1]}</em>
+                  {(isKa ? slide.titleKa : slide.titleEn)[2]}
+                </h1>
                 <p>{isKa ? slide.textKa : slide.textEn}</p>
                 <div className="hero-ctas">
                   <Link href={withBase("/contact")} className="btn btn-coral">
