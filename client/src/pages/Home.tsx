@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { withBase } from "@/lib/basePath";
 
@@ -42,15 +42,28 @@ const heroSlides = [
 
 export default function Home() {
   const { language, t } = useLanguage();
-  const [activeSlide, setActiveSlide] = useState(0);
+  const isKa = language === "ka";
 
+  // Hero carousel
+  const [activeSlide, setActiveSlide] = useState(0);
   useEffect(() => {
     const timer = window.setInterval(() => {
       setActiveSlide(current => (current + 1) % heroSlides.length);
-    }, 4500);
-
+    }, 5000);
     return () => window.clearInterval(timer);
   }, []);
+  const goPrev = () =>
+    setActiveSlide(i => (i - 1 + heroSlides.length) % heroSlides.length);
+  const goNext = () => setActiveSlide(i => (i + 1) % heroSlides.length);
+
+  // Clients carousel (horizontal scroll)
+  const clientsRef = useRef<HTMLDivElement>(null);
+  const scrollClients = (dir: number) => {
+    clientsRef.current?.scrollBy({ left: dir * 260, behavior: "smooth" });
+  };
+
+  // Testimonials carousel (active-card highlight)
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   const services = [
     {
@@ -143,6 +156,8 @@ export default function Home() {
     "HealthNet",
     "EduTech",
     "TelecomX",
+    "FinServe",
+    "MediaOne",
   ];
 
   const testimonials = [
@@ -178,24 +193,62 @@ export default function Home() {
     },
   ];
 
+  const prevTestimonial = () =>
+    setActiveTestimonial(i => (i - 1 + testimonials.length) % testimonials.length);
+  const nextTestimonial = () =>
+    setActiveTestimonial(i => (i + 1) % testimonials.length);
+
+  const Eyebrow = ({ label }: { label: string }) => (
+    <span className="inline-block mb-4 px-3 py-1 rounded-full bg-powder-light text-ink text-xs font-semibold uppercase tracking-wide">
+      {label}
+    </span>
+  );
+
   const currentSlide = heroSlides[activeSlide];
 
   return (
     <div className="w-full">
-      <section className="relative overflow-hidden min-h-[70vh] flex items-center">
-        <img
-          src={currentSlide.image}
-          alt="Business transformation"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+      {/* ===== HERO CAROUSEL ===== */}
+      <section className="relative overflow-hidden min-h-[72vh] flex items-center">
+        {heroSlides.map((slide, i) => (
+          <img
+            key={i}
+            src={slide.image}
+            alt=""
+            aria-hidden={i !== activeSlide}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              i === activeSlide ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+        {/* Brand color overlay */}
         <div className="absolute inset-0 bg-[#1a103e]/65" />
+
+        {/* Prev / Next arrows */}
+        <button
+          type="button"
+          onClick={goPrev}
+          aria-label="Previous slide"
+          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 grid place-items-center h-11 w-11 rounded-full bg-white/15 text-white backdrop-blur hover:bg-white/30 transition-colors cursor-pointer"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <button
+          type="button"
+          onClick={goNext}
+          aria-label="Next slide"
+          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 grid place-items-center h-11 w-11 rounded-full bg-white/15 text-white backdrop-blur hover:bg-white/30 transition-colors cursor-pointer"
+        >
+          <ChevronRight size={24} />
+        </button>
+
         <div className="container relative z-10 py-20 md:py-28 text-white">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-              {language === "ka" ? currentSlide.titleKa : currentSlide.titleEn}
+              {isKa ? currentSlide.titleKa : currentSlide.titleEn}
             </h1>
-            <p className="text-lg md:text-xl text-slate-100/90 mb-8">
-              {language === "ka" ? currentSlide.textKa : currentSlide.textEn}
+            <p className="text-lg md:text-xl text-white/85 mb-8">
+              {isKa ? currentSlide.textKa : currentSlide.textEn}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href={withBase("/contact")}>
@@ -205,19 +258,22 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="bg-white/10 text-white border-white/40 hover:bg-white/20"
+                  className="bg-white/10 text-white border-white/40 hover:bg-white/20 hover:text-white"
                 >
                   {t("home.heroSecondary")}
                 </Button>
               </Link>
             </div>
+            {/* Dot indicators */}
             <div className="mt-8 flex gap-2">
               {heroSlides.map((_, index) => (
                 <button
                   key={index}
                   type="button"
                   onClick={() => setActiveSlide(index)}
-                  className={`h-2.5 rounded-full transition-all ${index === activeSlide ? "w-8 bg-white" : "w-2.5 bg-white/50"}`}
+                  className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                    index === activeSlide ? "w-8 bg-white" : "w-2.5 bg-white/50"
+                  }`}
                   aria-label={`Slide ${index + 1}`}
                 />
               ))}
@@ -226,9 +282,35 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-muted/50">
+      {/* ===== ABOUT (cream) ===== */}
+      <section className="py-20 md:py-28 bg-cream">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center">
+            <Eyebrow label={isKa ? "ჩვენ შესახებ" : "About Us"} />
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {isKa
+                ? "როგორ ვმართავთ ტრანსფორმაციას"
+                : "How we lead transformation programs"}
+            </h2>
+            <p className="text-muted-foreground mb-8">
+              {isKa
+                ? "მოკლე მიმოხილვა ჩვენი მიდგომის შესახებ: შეფასება, სტრატეგია, ტექნიკური განხორციელება და უწყვეტი გაუმჯობესება."
+                : "A quick overview of our process: assessment, strategy, technical delivery, and continuous optimization."}
+            </p>
+            <Link href={withBase("/about")}>
+              <Button className="cursor-pointer bg-powder text-ink hover:bg-violet hover:text-white">
+                {t("nav.about")} <ChevronRight size={16} />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SERVICES (white) ===== */}
+      <section className="py-20 md:py-28 bg-white">
         <div className="container">
           <div className="text-center mb-12">
+            <Eyebrow label={isKa ? "სერვისები" : "Services"} />
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               {t("home.servicesTitle")}
             </h2>
@@ -254,8 +336,9 @@ export default function Home() {
                   <p className="text-muted-foreground mb-4">
                     {service.description}
                   </p>
+                  {/* Service card button — powder blue */}
                   <Link href={withBase(`/services/${service.id}`)}>
-                    <Button className="cursor-pointer bg-[#9ccaea] text-[#1c1c1c] hover:bg-[#332a8e] hover:text-white">
+                    <Button className="cursor-pointer bg-powder text-ink hover:bg-violet hover:text-white">
                       {t("blog.readMore")} <ChevronRight size={16} />
                     </Button>
                   </Link>
@@ -266,24 +349,59 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28">
+      {/* ===== CLIENTS CAROUSEL (warm cream) ===== */}
+      <section className="py-20 md:py-28 bg-cream-warm">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {language === "ka"
-                  ? "როგორ ვმართავთ ტრანსფორმაციას"
-                  : "How we lead transformation programs"}
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                {language === "ka"
-                  ? "მოკლე მიმოხილვა ჩვენი მიდგომის შესახებ: შეფასება, სტრატეგია, ტექნიკური განხორციელება და უწყვეტი გაუმჯობესება."
-                  : "A quick overview of our process: assessment, strategy, technical delivery, and continuous optimization."}
-              </p>
-              <Link href={withBase("/about")}>
-                <Button variant="outline">{t("nav.about")}</Button>
-              </Link>
+          <div className="text-center mb-12">
+            <Eyebrow label={isKa ? "პარტნიორები" : "Partners"} />
+            <h2 className="text-3xl md:text-4xl font-bold">
+              {isKa ? "ჩვენი სანდო კლიენტები" : "Our Trusted Clients"}
+            </h2>
+          </div>
+          <div className="flex items-center gap-3 md:gap-4">
+            <button
+              type="button"
+              onClick={() => scrollClients(-1)}
+              aria-label="Scroll clients left"
+              className="shrink-0 grid place-items-center h-11 w-11 rounded-full bg-[#2d1b69] text-white hover:bg-violet transition-colors cursor-pointer"
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <div
+              ref={clientsRef}
+              className="flex-1 flex gap-4 overflow-x-auto scroll-smooth py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {clients.map((client, i) => (
+                <div
+                  key={`${client}-${i}`}
+                  className="shrink-0 w-44 h-24 rounded-xl bg-white border border-border flex items-center justify-center text-muted-foreground font-semibold"
+                >
+                  {client}
+                </div>
+              ))}
             </div>
+            <button
+              type="button"
+              onClick={() => scrollClients(1)}
+              aria-label="Scroll clients right"
+              className="shrink-0 grid place-items-center h-11 w-11 rounded-full bg-[#2d1b69] text-white hover:bg-violet transition-colors cursor-pointer"
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== VIDEO (white) ===== */}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="container">
+          <div className="text-center mb-10">
+            <Eyebrow label={isKa ? "ვიდეო" : "Video"} />
+            <h2 className="text-3xl md:text-4xl font-bold">
+              {isKa ? "ნახეთ Xperience მოქმედებაში" : "See Xperience in action"}
+            </h2>
+          </div>
+          <div className="max-w-4xl mx-auto">
             <YouTubeEmbed
               videoId="ScMzIvxBSi4"
               title="Xperience process overview"
@@ -293,93 +411,33 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28 bg-muted/50">
+      {/* ===== TESTIMONIALS CAROUSEL (cream) ===== */}
+      <section className="py-20 md:py-28 bg-cream">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t("home.latestNews")}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {news.map(article => (
-              <Card
-                key={article.id}
-                className="overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                <img
-                  src={article.image}
-                  alt={language === "ka" ? article.titleKa : article.titleEn}
-                  className="h-44 w-full object-cover"
-                />
-                <CardHeader>
-                  <div className="text-sm text-muted-foreground mb-2">
-                    {new Date(article.date).toLocaleDateString()}
-                  </div>
-                  <CardTitle>
-                    {language === "ka" ? article.titleKa : article.titleEn}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-4">
-                    {language === "ka" ? article.excerptKa : article.excerptEn}
-                  </p>
-                  <Link href={withBase("/blog")}>
-                    <Button className="cursor-pointer bg-[#9ccaea] text-[#1c1c1c] hover:bg-[#332a8e] hover:text-white">
-                      {t("blog.readMore")} <ChevronRight size={16} />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 border-y border-border bg-background">
-        <div className="container overflow-hidden">
-          <h2 className="text-center text-2xl md:text-3xl font-bold mb-10">
-            {t("home.clientsTitle")}
-          </h2>
-          <div className="relative">
-            <div className="marquee-track">
-              {[...clients, ...clients].map((client, index) => (
-                <div key={`${client}-${index}`} className="marquee-item">
-                  <div className="h-16 px-8 rounded-lg border border-border bg-card text-muted-foreground flex items-center justify-center font-semibold whitespace-nowrap">
-                    {client}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 md:py-28">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <Eyebrow label={isKa ? "შეფასებები" : "Testimonials"} />
+            <h2 className="text-3xl md:text-4xl font-bold">
               {t("home.testimonialsTitle")}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((testimonial, i) => (
-              <Card key={i} className="hover:shadow-lg transition-shadow">
+              <Card
+                key={i}
+                className={`transition-opacity duration-300 ${
+                  i === activeTestimonial ? "opacity-100 shadow-lg" : "opacity-50"
+                }`}
+              >
                 <CardHeader>
                   <div className="flex items-center gap-3 mb-4">
                     <img
                       src={testimonial.image}
-                      alt={
-                        language === "ka"
-                          ? testimonial.name
-                          : testimonial.nameEn
-                      }
+                      alt={isKa ? testimonial.name : testimonial.nameEn}
                       className="h-12 w-12 rounded-full object-cover"
                     />
                     <div>
                       <CardTitle className="text-lg">
-                        {language === "ka"
-                          ? testimonial.name
-                          : testimonial.nameEn}
+                        {isKa ? testimonial.name : testimonial.nameEn}
                       </CardTitle>
                       <div className="text-sm text-muted-foreground">
                         {testimonial.company}
@@ -398,9 +456,72 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    "{language === "ka" ? testimonial.text : testimonial.textEn}
-                    "
+                    "{isKa ? testimonial.text : testimonial.textEn}"
                   </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          {/* Navigation arrows */}
+          <div className="flex items-center justify-center gap-4 mt-10">
+            <button
+              type="button"
+              onClick={prevTestimonial}
+              aria-label="Previous testimonial"
+              className="grid place-items-center h-11 w-11 rounded-full bg-[#2d1b69] text-white hover:bg-violet transition-colors cursor-pointer"
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <button
+              type="button"
+              onClick={nextTestimonial}
+              aria-label="Next testimonial"
+              className="grid place-items-center h-11 w-11 rounded-full bg-[#2d1b69] text-white hover:bg-violet transition-colors cursor-pointer"
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== NEWS (white) ===== */}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <Eyebrow label={isKa ? "სიახლეები" : "Insights"} />
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {t("home.latestNews")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {news.map(article => (
+              <Card
+                key={article.id}
+                className="overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                <img
+                  src={article.image}
+                  alt={isKa ? article.titleKa : article.titleEn}
+                  className="h-44 w-full object-cover"
+                />
+                <CardHeader>
+                  <div className="text-sm text-muted-foreground mb-2">
+                    {new Date(article.date).toLocaleDateString()}
+                  </div>
+                  <CardTitle>
+                    {isKa ? article.titleKa : article.titleEn}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    {isKa ? article.excerptKa : article.excerptEn}
+                  </p>
+                  {/* News "Read More" button — peach blush */}
+                  <Link href={withBase("/blog")}>
+                    <Button className="cursor-pointer bg-peach text-white hover:bg-peach-dark hover:text-white">
+                      {t("blog.readMore")} <ChevronRight size={16} />
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))}

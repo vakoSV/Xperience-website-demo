@@ -76,6 +76,15 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
   --color-champagne: var(--champagne);
+  /* Brand accent palette (static) */
+  --color-violet: #332a8e;
+  --color-ink: #1c1c1c;
+  --color-peach: #ff8373;
+  --color-peach-dark: #e65c4d;
+  --color-powder: #9ccaea;
+  --color-powder-light: #ceeef9;
+  --color-cream: #f5f4ea;
+  --color-cream-warm: #eee8d3;
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
