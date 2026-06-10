@@ -546,7 +546,69 @@
 .sp-card .svc-blurb { font-size: 14px; }
 .sp-card .svc-go { font-size: 13.5px; margin-top: auto; padding-top: 12px; }
 
-/* ---------- shared card surface (used on About/Research/Contact) ---------- */
+/* ============================================================= */
+/* ===== About page (ported from about.css handoff) ===== */
+/* ============================================================= */
+.mv-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 22px; }
+.mv-card { position: relative; overflow: hidden; border-radius: 32px; padding: 48px 44px 52px; display: flex; flex-direction: column; gap: 18px; min-height: 300px; justify-content: center; transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease; }
+.mv-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.mv-card.m-purple { background: var(--purple); color: var(--white); }
+.mv-card.m-purple::after { content: ''; position: absolute; right: -90px; top: -100px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, var(--coral), transparent 70%); filter: blur(28px); opacity: 0.8; }
+.mv-card.m-sky { background: var(--sky-soft); }
+.mv-card.m-sky::after { content: ''; position: absolute; left: -80px; bottom: -110px; width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle, var(--white), transparent 70%); opacity: 0.9; }
+.mv-label { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.mv-card.m-purple .mv-label { color: var(--sky); }
+.mv-card.m-sky .mv-label { color: var(--purple-400); }
+.mv-label::before { content: ''; width: 26px; height: 3px; border-radius: 3px; background: var(--coral); }
+.mv-card p { position: relative; font-size: clamp(20px, 2.2vw, 27px); line-height: 1.45; font-weight: 600; letter-spacing: -0.015em; text-wrap: pretty; }
+.mv-card.m-purple p { color: rgba(255, 255, 255, 0.94); }
+.mv-card.m-sky p { color: var(--ink); }
+
+.values-band { background: var(--cream); border-radius: 56px; }
+.values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.value-card { background: var(--white); border-radius: 22px; padding: 30px 26px 32px; display: flex; flex-direction: column; gap: 12px; border-bottom: 5px solid var(--c, var(--coral)); transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease; }
+.value-card:hover { transform: translateY(-7px); box-shadow: var(--shadow-hover); }
+.value-num { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font-size: 16px; font-weight: 800; background: color-mix(in oklch, var(--c, var(--coral)) 22%, white); color: var(--purple); }
+.value-card h3 { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+.value-card p { font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); text-wrap: pretty; }
+
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.team-card { background: var(--white); border-radius: 22px; overflow: hidden; box-shadow: 0 6px 24px -14px rgba(53, 32, 125, 0.14); transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease; }
+.team-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+.team-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; }
+.team-photo .ph { position: absolute; inset: 0; }
+.team-photo::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(transparent, color-mix(in oklch, var(--c, var(--coral)) 50%, transparent)); pointer-events: none; }
+.team-body { padding: 20px 22px 24px; display: grid; gap: 4px; }
+.team-body strong { font-size: 17px; font-weight: 800; }
+.team-body small { font-size: 13.5px; font-weight: 600; color: var(--purple-400); }
+
+.founder-card { position: relative; overflow: hidden; isolation: isolate; background: var(--purple); color: var(--white); border-radius: 32px; display: grid; grid-template-columns: 380px 1fr; gap: 56px; padding: 56px; }
+.founder-card::after { content: ''; position: absolute; right: -120px; bottom: -160px; z-index: -1; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, var(--sky), transparent 68%); filter: blur(46px); opacity: 0.7; }
+.founder-card::before { content: ''; position: absolute; left: 30%; top: -140px; z-index: -1; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, var(--coral), transparent 68%); filter: blur(46px); opacity: 0.55; }
+.founder-photo { position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 5; border: 3px solid rgba(255, 255, 255, 0.25); }
+.founder-photo .ph { position: absolute; inset: 0; }
+.founder-body { display: grid; gap: 24px; align-content: center; }
+.founder-body .kicker { color: var(--sky); margin-bottom: 0; }
+.founder-body .kicker::before { background: var(--coral); }
+.founder-quote { font-size: clamp(21px, 2.4vw, 29px); line-height: 1.42; font-weight: 600; letter-spacing: -0.015em; text-wrap: pretty; }
+.founder-sig { display: grid; gap: 4px; }
+.founder-sig strong { font-size: 17px; }
+.founder-sig small { font-size: 14px; color: var(--sky); font-weight: 600; }
+.founder-bio { font-size: 15.5px; line-height: 1.6; color: rgba(255, 255, 255, 0.75); max-width: 520px; }
+
+@media (max-width: 980px) {
+  .mv-grid { grid-template-columns: 1fr; }
+  .values-grid { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .founder-card { grid-template-columns: 1fr; padding: 36px; gap: 32px; }
+  .founder-photo { max-width: 340px; }
+}
+@media (max-width: 560px) {
+  .values-grid, .team-grid { grid-template-columns: 1fr; }
+  .mv-card { padding: 34px 28px 38px; }
+}
+
+/* ---------- shared card surface (used on Research/Contact) ---------- */
 .xp-card { background: var(--white); border-radius: 22px; box-shadow: var(--shadow-card); border: 1px solid rgba(53,32,125,0.06); }
 .field-label { display: block; font-size: 13px; font-weight: 700; color: var(--ink-soft); margin-bottom: 7px; }
 .field-input { width: 100%; border: 1.5px solid rgba(53, 32, 125, 0.15); border-radius: 14px; padding: 12px 16px; font-family: inherit; font-size: 15px; background: var(--white); color: var(--ink); outline: none; transition: border-color 0.2s ease; }
