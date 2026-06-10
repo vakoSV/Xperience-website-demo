@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
 import { homeWithBase, withBase } from "@/lib/basePath";
+import { socialLinks } from "./icons";
 
 export default function Footer() {
   const { t } = useLanguage();
 
-  const footerLinks = [
+  const siteMap = [
     { href: homeWithBase(), label: t("nav.home") },
     { href: withBase("/about"), label: t("nav.about") },
     { href: withBase("/services"), label: t("nav.services") },
@@ -16,106 +16,72 @@ export default function Footer() {
     { href: withBase("/contact"), label: t("nav.contact") },
   ];
 
+  const services = [
+    t("services.service1.name"),
+    t("services.service2.name"),
+    t("services.service3.name"),
+    t("services.service4.name"),
+  ];
+
   return (
-    <footer className="border-t border-border bg-muted/50">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Company Info */}
-          <div>
-            <div className="mb-4">
-              <img
-                src={withBase("/assets/logos/xperience-logo-horizontal.png")}
-                alt="Xperience"
-                className="h-8 w-auto"
-              />
-            </div>
-            <p className="text-sm text-muted-foreground">
-              {t("home.heroSubtitle")}
-            </p>
+    <footer className="site-footer">
+      <div className="wrap">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <img src={withBase("/assets/logos/logo-white.png")} alt="Xperience" />
+            <p>{t("home.heroSubtitle")}</p>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4">{t("footer.sitemap")}</h3>
-            <ul className="space-y-2">
-              {footerLinks.map(link => (
+            <h4>{t("footer.sitemap")}</h4>
+            <ul>
+              {siteMap.map(link => (
                 <li key={link.href}>
-                  <Link href={link.href}>
-                    <a className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                      {link.label}
-                    </a>
-                  </Link>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div>
-            <h3 className="font-semibold mb-4">{t("contact.title")}</h3>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <Phone size={16} className="mt-1 text-primary flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">
-                  +995 (0) 32 2 999 999
-                </span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Mail size={16} className="mt-1 text-primary flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">
-                  info@xperience.ge
-                </span>
-              </div>
-              <div className="flex items-start gap-3">
-                <MapPin size={16} className="mt-1 text-primary flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">
-                  Tbilisi, Georgia
-                </span>
-              </div>
-            </div>
+            <h4>{t("nav.services")}</h4>
+            <ul>
+              {services.map((name, i) => (
+                <li key={i}>
+                  <Link href={withBase("/services")}>{name}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Social Links */}
           <div>
-            <h3 className="font-semibold mb-4">{t("footer.followUs")}</h3>
-            <div className="flex gap-4">
-              <a
-                href="#"
-                className="p-2 rounded-lg hover:bg-muted transition-colors"
-                title="Facebook"
-              >
-                <Facebook
-                  size={20}
-                  className="text-muted-foreground hover:text-primary"
-                />
-              </a>
-              <a
-                href="#"
-                className="p-2 rounded-lg hover:bg-muted transition-colors"
-                title="LinkedIn"
-              >
-                <Linkedin
-                  size={20}
-                  className="text-muted-foreground hover:text-primary"
-                />
-              </a>
-              <a
-                href="#"
-                className="p-2 rounded-lg hover:bg-muted transition-colors"
-                title="Twitter"
-              >
-                <Twitter
-                  size={20}
-                  className="text-muted-foreground hover:text-primary"
-                />
-              </a>
-            </div>
+            <h4>{t("contact.title")}</h4>
+            <ul className="footer-contact">
+              <li>
+                <span className="lbl">T</span>
+                <a href="tel:+995322999999">+995 (0) 32 2 999 999</a>
+              </li>
+              <li>
+                <span className="lbl">@</span>
+                <a href="mailto:info@xperience.ge">info@xperience.ge</a>
+              </li>
+              <li>
+                <span className="lbl">⌂</span>
+                <span>Tbilisi, Georgia</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          {t("footer.copyright")}
+        <div className="footer-bottom">
+          <span>{t("footer.copyright")}</span>
+          <div className="socials">
+            {socialLinks.map(({ label, href, Icon }) => (
+              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
+                <Icon />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

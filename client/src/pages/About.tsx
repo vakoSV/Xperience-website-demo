@@ -1,192 +1,119 @@
-import React from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Target, Eye, Heart } from 'lucide-react';
+import React from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Target, Eye, Heart } from "lucide-react";
 
 export default function About() {
   const { language, t } = useLanguage();
+  const isKa = language === "ka";
 
   const values = [
-    {
-      icon: Target,
-      title: 'Innovation',
-      titleKa: 'ინოვაცია',
-      description: 'We constantly innovate to provide cutting-edge solutions',
-      descriptionKa: 'ჩვენ მუდმივად ვიხელმძღვანელთ ინოვაციებით',
-    },
-    {
-      icon: Eye,
-      title: 'Transparency',
-      titleKa: 'გამჭვირვალობა',
-      description: 'We believe in open communication and transparency',
-      descriptionKa: 'ჩვენ გვჯერა ღია კომუნიკაციაში',
-    },
-    {
-      icon: Heart,
-      title: 'Excellence',
-      titleKa: 'ქვესიტელობა',
-      description: 'We strive for excellence in everything we do',
-      descriptionKa: 'ჩვენ ვისწრაფვით სამეწამულოსთან ყველაფერში',
-    },
+    { icon: Target, title: "Innovation", titleKa: "ინოვაცია", description: "We constantly innovate to provide cutting-edge solutions", descriptionKa: "ჩვენ მუდმივად ვიხელმძღვანელთ ინოვაციებით" },
+    { icon: Eye, title: "Transparency", titleKa: "გამჭვირვალობა", description: "We believe in open communication and transparency", descriptionKa: "ჩვენ გვჯერა ღია კომუნიკაციაში" },
+    { icon: Heart, title: "Excellence", titleKa: "ბრწყინვალება", description: "We strive for excellence in everything we do", descriptionKa: "ჩვენ ვისწრაფვით ბრწყინვალებისკენ ყველაფერში" },
   ];
 
   const team = [
-    {
-      name: 'ლევან ბერიძე',
-      nameEn: 'Levan Beridze',
-      role: 'CEO & Founder',
-      roleKa: 'დირექტორი და დამფუძნებელი',
-      bio: 'ტექნოლოგიის ინდუსტრიაში 15+ წლის გამოცდილება',
-      bioEn: '15+ years of experience in technology industry',
-    },
-    {
-      name: 'ელენე ხარაძე',
-      nameEn: 'Elene Kharadze',
-      role: 'CTO',
-      roleKa: 'ტექნოლოგიის დირექტორი',
-      bio: 'ღრმა ტექნიკური ცოდნა და ლიდერობის უნარი',
-      bioEn: 'Deep technical knowledge and leadership skills',
-    },
-    {
-      name: 'გიორგი მელიქიძე',
-      nameEn: 'Giorgi Melikidze',
-      role: 'Head of Operations',
-      roleKa: 'ოპერაციების ხელმძღვანელი',
-      bio: 'ბიზნეს პროცესების ოპტიმიზაციის ექსპერტი',
-      bioEn: 'Expert in business process optimization',
-    },
+    { name: "ლევან ბერიძე", nameEn: "Levan Beridze", role: "CEO & Founder", roleKa: "დირექტორი და დამფუძნებელი", bio: "ტექნოლოგიის ინდუსტრიაში 15+ წლის გამოცდილება", bioEn: "15+ years of experience in technology industry" },
+    { name: "ელენე ხარაძე", nameEn: "Elene Kharadze", role: "CTO", roleKa: "ტექნოლოგიის დირექტორი", bio: "ღრმა ტექნიკური ცოდნა და ლიდერობის უნარი", bioEn: "Deep technical knowledge and leadership skills" },
+    { name: "გიორგი მელიქიძე", nameEn: "Giorgi Melikidze", role: "Head of Operations", roleKa: "ოპერაციების ხელმძღვანელი", bio: "ბიზნეს პროცესების ოპტიმიზაციის ექსპერტი", bioEn: "Expert in business process optimization" },
   ];
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-primary/10 via-transparent to-transparent">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              {t('about.title')}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {t('about.missionText')}
-            </p>
-          </div>
+      {/* ===== HERO ===== */}
+      <section className="sp-hero">
+        <div className="hero-blobs">
+          <div className="blob blob-coral" />
+          <div className="blob blob-sky" />
+        </div>
+        <div className="wrap">
+          <div className="kicker">{t("nav.about")}</div>
+          <h1>{t("about.title")}</h1>
+          <p>{t("about.missionText")}</p>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="py-20 md:py-32">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Mission */}
+      {/* ===== MISSION & VISION ===== */}
+      <section className="section">
+        <div className="wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 reveal">
             <div>
-              <h2 className="text-3xl font-bold mb-6">{t('about.mission')}</h2>
-              <p className="text-lg text-muted-foreground mb-6">
-                {t('about.missionText')}
-              </p>
-              <p className="text-muted-foreground">
-                {t('aboutPage.missionExtra')}
-              </p>
+              <div className="kicker">{t("about.mission")}</div>
+              <h2 className="section-title" style={{ marginBottom: 16 }}>{t("about.mission")}</h2>
+              <p style={{ color: "var(--ink-soft)", fontSize: 17, lineHeight: 1.65, marginBottom: 14 }}>{t("about.missionText")}</p>
+              <p style={{ color: "var(--ink-soft)", lineHeight: 1.65 }}>{t("aboutPage.missionExtra")}</p>
             </div>
-
-            {/* Vision */}
             <div>
-              <h2 className="text-3xl font-bold mb-6">{t('about.vision')}</h2>
-              <p className="text-lg text-muted-foreground mb-6">
-                {t('about.visionText')}
-              </p>
-              <p className="text-muted-foreground">
-                {t('aboutPage.visionExtra')}
-              </p>
+              <div className="kicker">{t("about.vision")}</div>
+              <h2 className="section-title" style={{ marginBottom: 16 }}>{t("about.vision")}</h2>
+              <p style={{ color: "var(--ink-soft)", fontSize: 17, lineHeight: 1.65, marginBottom: 14 }}>{t("about.visionText")}</p>
+              <p style={{ color: "var(--ink-soft)", lineHeight: 1.65 }}>{t("aboutPage.visionExtra")}</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-20 md:py-32 bg-muted/50">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t('about.values')}
-            </h2>
+      {/* ===== VALUES (cream band) ===== */}
+      <section className="section" style={{ background: "var(--cream)" }}>
+        <div className="wrap">
+          <div className="section-head reveal" style={{ justifyContent: "center", textAlign: "center" }}>
+            <div>
+              <div className="kicker" style={{ justifyContent: "center" }}>{t("about.values")}</div>
+              <h2 className="section-title">{t("about.values")}</h2>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map((value, i) => {
-              const Icon = value.icon;
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {values.map((v, i) => {
+              const Icon = v.icon;
               return (
-                <Card key={i} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <Icon className="text-primary" size={24} />
-                    </div>
-                    <CardTitle>
-                      {language === 'ka' ? value.titleKa : value.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">
-                      {language === 'ka' ? value.descriptionKa : value.description}
-                    </p>
-                  </CardContent>
-                </Card>
+                <div key={i} className="xp-card reveal" style={{ padding: "30px 28px", ["--d" as any]: `${i * 0.08}s` }}>
+                  <div style={{ width: 52, height: 52, borderRadius: 14, display: "grid", placeItems: "center", background: "rgba(53,32,125,0.08)", color: "var(--purple)", marginBottom: 18 }}>
+                    <Icon size={24} />
+                  </div>
+                  <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>{isKa ? v.titleKa : v.title}</h3>
+                  <p style={{ color: "var(--ink-soft)", lineHeight: 1.6 }}>{isKa ? v.descriptionKa : v.description}</p>
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20 md:py-32">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t('aboutPage.ourTeam')}
-            </h2>
+      {/* ===== TEAM ===== */}
+      <section className="section">
+        <div className="wrap">
+          <div className="section-head reveal" style={{ justifyContent: "center", textAlign: "center" }}>
+            <div>
+              <div className="kicker" style={{ justifyContent: "center" }}>{t("aboutPage.ourTeam")}</div>
+              <h2 className="section-title">{t("aboutPage.ourTeam")}</h2>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((member, i) => (
-              <Card key={i} className="hover:shadow-lg transition-shadow overflow-hidden">
-                <div className="h-48 bg-gradient-to-br from-primary/20 to-primary/5"></div>
-                <CardHeader>
-                  <CardTitle>
-                    {language === 'ka' ? member.name : member.nameEn}
-                  </CardTitle>
-                  <div className="text-sm text-primary font-semibold">
-                    {language === 'ka' ? member.roleKa : member.role}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    {language === 'ka' ? member.bio : member.bioEn}
-                  </p>
-                </CardContent>
-              </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {team.map((m, i) => (
+              <div key={i} className="xp-card reveal" style={{ overflow: "hidden", ["--d" as any]: `${i * 0.08}s` }}>
+                <div className="ph ph-sky" style={{ height: 200 }}>
+                  <span>team photo · 1:1</span>
+                </div>
+                <div style={{ padding: "22px 24px 26px" }}>
+                  <h3 style={{ fontSize: 19, fontWeight: 800 }}>{isKa ? m.name : m.nameEn}</h3>
+                  <div style={{ color: "var(--purple)", fontWeight: 700, fontSize: 14, marginBottom: 10 }}>{isKa ? m.roleKa : m.role}</div>
+                  <p style={{ color: "var(--ink-soft)", lineHeight: 1.6 }}>{isKa ? m.bio : m.bioEn}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Founder Bio */}
-      <section className="py-20 md:py-32 bg-muted/50">
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">{t('about.founder')}</h2>
-            <Card>
-              <CardHeader>
-                <CardTitle>{language === 'ka' ? 'ლევან ბერიძე' : 'Levan Beridze'}</CardTitle>
-                <CardDescription className="text-base">
-                  CEO & Founder
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  {t('about.founderBio')}
-                </p>
-                <p className="text-muted-foreground">
-                  {t('aboutPage.founderExtra')}
-                </p>
-              </CardContent>
-            </Card>
+      {/* ===== FOUNDER (cream band) ===== */}
+      <section className="section" style={{ background: "var(--cream)" }}>
+        <div className="wrap">
+          <div className="xp-card reveal" style={{ maxWidth: 760, margin: "0 auto", padding: "40px 40px" }}>
+            <div className="kicker">{t("about.founder")}</div>
+            <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 4 }}>{isKa ? "ლევან ბერიძე" : "Levan Beridze"}</h2>
+            <div style={{ color: "var(--purple)", fontWeight: 700, marginBottom: 18 }}>CEO &amp; Founder</div>
+            <p style={{ color: "var(--ink-soft)", fontSize: 16.5, lineHeight: 1.65, marginBottom: 14 }}>{t("about.founderBio")}</p>
+            <p style={{ color: "var(--ink-soft)", lineHeight: 1.65 }}>{t("aboutPage.founderExtra")}</p>
           </div>
         </div>
       </section>

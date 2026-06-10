@@ -1,14 +1,26 @@
-import React, { useState } from "react";
-import { Link } from "wouter";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
+import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Menu, X, Facebook, Instagram } from "lucide-react";
 import { homeWithBase, withBase } from "@/lib/basePath";
-
-const homeUrl = homeWithBase();
+import { socialLinks } from "./icons";
 
 export default function Header() {
   const { language, setLanguage, t } = useLanguage();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [location] = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
 
   const navLinks = [
     { href: homeWithBase(), label: t("nav.home") },
@@ -19,111 +31,82 @@ export default function Header() {
     { href: withBase("/contact"), label: t("nav.contact") },
   ];
 
+  const isActive = (href: string) => {
+    const home = homeWithBase();
+    if (href === home) return location === home || location === "/";
+    return location === href || location.startsWith(href + "/");
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        {/* Logo */}
-        <a
-          href={homeUrl}
-          className="flex items-center hover:opacity-80 transition-opacity"
-          aria-label="Xperience — home"
-        >
-          <img
-            src={withBase("/assets/logos/xperience-logo-horizontal.png")}
-            alt="Xperience"
-            className="h-8 w-auto"
-          />
+    <header className={`site-header${scrolled ? " scrolled" : ""}`}>
+      <div className="wrap header-inner">
+        <a className="header-logo" href={homeWithBase()} aria-label="Xperience — home">
+          <img src={withBase("/assets/logos/logo-dark.png")} alt="Xperience" />
         </a>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="main-nav">
           {navLinks.map(link => (
-            <Link key={link.href} href={link.href}>
-              <a className="text-sm font-medium hover:text-primary transition-colors">
-                {link.label}
-              </a>
+            <Link
+              key={link.href}
+              href={link.href}
+              className={isActive(link.href) ? "active" : undefined}
+            >
+              {link.label}
             </Link>
           ))}
         </nav>
 
-        {/* Right side - Language Switcher & Mobile Menu */}
-        <div className="flex items-center gap-4">
-          {/* Social icons — peach blush on hover, before language switcher */}
-          <div className="hidden sm:flex items-center gap-2">
-            <a
-              href="https://www.facebook.com"
-              target="_blank"
-              rel="noreferrer"
-              className="p-2 rounded-lg text-foreground hover:bg-peach hover:text-white transition-colors"
-              title="Facebook"
-              aria-label="Facebook"
-            >
-              <Facebook size={16} />
-            </a>
-            <a
-              href="https://www.instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              className="p-2 rounded-lg text-foreground hover:bg-peach hover:text-white transition-colors"
-              title="Instagram"
-              aria-label="Instagram"
-            >
-              <Instagram size={16} />
-            </a>
+        <div className="header-tools">
+          <div className="socials">
+            {socialLinks.map(({ label, href, Icon }) => (
+              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
+                <Icon />
+              </a>
+            ))}
           </div>
-
-          {/* Language Switcher */}
-          <div className="flex items-center gap-2 border border-border rounded-lg p-1">
+          <div className="lang-bar">
             <button
-              onClick={() => setLanguage("ka")}
-              className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                language === "ka"
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-muted"
-              }`}
-              title="Georgian"
-            >
-              ქართული
-            </button>
-            <button
+              type="button"
+              className={language === "en" ? "active" : undefined}
               onClick={() => setLanguage("en")}
-              className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                language === "en"
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-muted"
-              }`}
-              title="English"
             >
               EN
             </button>
+            <button
+              type="button"
+              className={language === "ka" ? "active" : undefined}
+              onClick={() => setLanguage("ka")}
+            >
+              ქა
+            </button>
           </div>
-
-          {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            type="button"
+            className="nav-toggle"
             aria-label="Toggle menu"
+            onClick={() => setMenuOpen(o => !o)}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background">
-          <nav className="container py-4 flex flex-col gap-4">
-            {navLinks.map(link => (
-              <Link key={link.href} href={link.href}>
-                <a
-                  className="text-sm font-medium hover:text-primary transition-colors block py-2"
-                  onClick={() => setMobileMenuOpen(false)}
+      {menuOpen && (
+        <div className="mobile-nav" style={{ display: "block" }}>
+          <div className="wrap">
+            <nav>
+              {navLinks.map(link => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={isActive(link.href) ? "active" : undefined}
+                  onClick={() => setMenuOpen(false)}
                 >
                   {link.label}
-                </a>
-              </Link>
-            ))}
-          </nav>
+                </Link>
+              ))}
+            </nav>
+          </div>
         </div>
       )}
     </header>
