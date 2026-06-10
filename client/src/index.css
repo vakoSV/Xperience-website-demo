@@ -1,11 +1,21 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Georgian brand font (only Regular weight is available) */
+@font-face {
+  font-family: "AvenirNextGeorgian";
+  src: url("./assets/fonts/AvenirNextGeorgian-Regular.ttf") format("truetype");
+  font-weight: 100 900; /* allow faux-bold synthesis for bold headings */
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Custom fonts */
 @layer base {
   :root {
     --font-display: "Playfair Display", serif;
     --font-body: "Poppins", sans-serif;
+    --font-georgian: "AvenirNextGeorgian", "Poppins", sans-serif;
   }
 
   html {
@@ -19,6 +29,18 @@
   h5,
   h6 {
     font-family: var(--font-display);
+  }
+
+  /* When Georgian is active (<html lang="ka">), use the Georgian brand font
+     for all text, including headings (Playfair/Poppins lack Georgian glyphs). */
+  html[lang="ka"],
+  html[lang="ka"] h1,
+  html[lang="ka"] h2,
+  html[lang="ka"] h3,
+  html[lang="ka"] h4,
+  html[lang="ka"] h5,
+  html[lang="ka"] h6 {
+    font-family: var(--font-georgian);
   }
 }
 

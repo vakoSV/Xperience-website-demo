@@ -38,6 +38,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setIsLoaded(true);
   }, []);
 
+  // Keep <html lang> in sync so the Georgian brand font (CSS html[lang="ka"]) applies.
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('language', lang);
