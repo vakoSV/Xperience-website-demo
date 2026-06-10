@@ -255,9 +255,9 @@ export default function Home() {
                     {service.description}
                   </p>
                   <Link href={withBase(`/services/${service.id}`)}>
-                    <a className="inline-flex items-center gap-2 text-primary font-semibold hover:underline">
+                    <Button className="cursor-pointer bg-[#9ccaea] text-[#1c1c1c] hover:bg-[#332a8e] hover:text-white">
                       {t("blog.readMore")} <ChevronRight size={16} />
-                    </a>
+                    </Button>
                   </Link>
                 </CardContent>
               </Card>
@@ -324,9 +324,9 @@ export default function Home() {
                     {language === "ka" ? article.excerptKa : article.excerptEn}
                   </p>
                   <Link href={withBase("/blog")}>
-                    <a className="inline-flex items-center gap-2 text-primary font-semibold hover:underline">
+                    <Button className="cursor-pointer bg-[#9ccaea] text-[#1c1c1c] hover:bg-[#332a8e] hover:text-white">
                       {t("blog.readMore")} <ChevronRight size={16} />
-                    </a>
+                    </Button>
                   </Link>
                 </CardContent>
               </Card>
